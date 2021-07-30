@@ -1,4 +1,6 @@
 import {React, useState} from 'react';
+import TodoComp from './TodoComp';
+
 
 export default function Todo() {
     const [inputText, setInputText] = useState('');
@@ -21,6 +23,21 @@ if (e.key === 'Enter') {
 }
 }
 
+const handleDelete = (item) => {
+setItems(items.filter(curr => curr !== item));
+}
+
+const handleChange = (item) => {
+    const index = items.indexOf(item);
+    const newItems = [...items];
+    newItems[index] = {
+        ...item,
+        done: !item.done
+    };
+
+    setItems(newItems);
+}
+
     return (
        
             <section>
@@ -32,9 +49,16 @@ if (e.key === 'Enter') {
                 <section>
                     <input id='toggle-all' type='checkbox' />
                     <label htmlFor='toggle-all'>Completed</label>
+                   
                     <ul>
                         {items.map((item => (
-                            <li key={item.id}>{item.text}</li>
+                            <TodoComp 
+                            key={item.id}
+                            id={item.id}
+                            text={item.text}
+                            onChange={() => handleChange(item)} 
+                            onDelete={() => handleDelete(item)}
+                            />
                         )))}
                     </ul>
                 </section>
