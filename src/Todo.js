@@ -21,12 +21,24 @@ if (e.key === 'Enter') {
 }
 }
 
-
     return (
-        <div>
-            <h1>todos</h1>
+       
+            <section>
+                <header>
+                <h1>todos</h1>
             <input placeholder='What needs to be done' value={inputText} onChange={e => setInputText(e.target.value)} onKeyPress={handleKeyPress} />
-            
-        </div>
+                </header>
+
+                <section>
+                    <input id='toggle-all' type='checkbox' />
+                    <label htmlFor='toggle-all'>Completed</label>
+                    <ul>
+                        {items.map((item => (
+                            <li key={item.id}>{item.text}</li>
+                        )))}
+                    </ul>
+                </section>
+
+            </section>
     );
 }
