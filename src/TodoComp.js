@@ -1,10 +1,10 @@
-import import React, { useState } from "react";
+import React, { useState } from "react";
 export default function TodoComp(props) {
 
 
     const [isEditing, setIsEditing] = useState(false);
     const [currentValue, setCurrentValue] = useState("");
-    const { id, done, text, onChange, onDelete,  } = props;
+    const { id, done, text, onChange, onDelete, onTextChanged } = props;
     const classes = [];
     if (done) {
         classes.push('completed');
@@ -14,11 +14,18 @@ export default function TodoComp(props) {
     }
 
     const startEditing = (e) => {
+        setIsEditing(true);
+        setCurrentValue(text);
+    }
+
+    const handleTextChange = (e) => {
         if (e.key !== 'Enter') {
             return;
         }
 
-        setIsEditing(true);
+        onTextChanged(currentValue);
+        setCurrentValue('');
+        setIsEditing(false);
     }
 
 
@@ -27,8 +34,16 @@ export default function TodoComp(props) {
             <div>
                 <input id={`todo-${id}`} type='checkbox' checked={done} onChange={onChange} />
                 <label htmlFor={`todo-${id}`}>{text}</label>
-                <button onclick={onDelete} >x</button>
+                <button onclick={onDelete}>x</button>
             </div>
+
+            {isEditing && (
+                <input value={currentValue}
+                onChange={e => setCurrentValue(e.target.value)}
+                    onKeyPress={handleTextChange}
+                    type='text'
+                />
+            )}
 
         </li>
     </div>
