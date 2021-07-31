@@ -38,6 +38,17 @@ const handleChange = (item) => {
     setItems(newItems);
 }
 
+const changeText = (item, text) => {
+    const index = items.indexOf(item);
+    const newItems = [...items];
+    newItems[index] = {
+      ...item,
+      text
+    };
+
+    setItems(newItems);
+  }; 
+
     return (
        
             <section>
@@ -55,10 +66,11 @@ const handleChange = (item) => {
                             <TodoComp 
                             key={item.id}
                             id={item.id}
+                            done={item.done}
                             text={item.text}
                             onChange={() => handleChange(item)} 
                             onDelete={() => handleDelete(item)}
-                            />
+                            onTextChanged={text => changeText(item, text)} />
                         )))}
                     </ul>
                 </section>
